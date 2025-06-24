@@ -1,0 +1,5 @@
+- name: Ensure system compliance
+  hosts: compliant_hosts
+  become: yes
+  roles:
+    - compliance

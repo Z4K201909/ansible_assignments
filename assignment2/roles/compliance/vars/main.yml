@@ -1,0 +1,16 @@
+required_packages:
+  - git
+  - htop
+  - curl
+
+forbidden_packages:
+  - telnet
+  - vsftpd
+
+required_services:
+  - sshd
+  - cron
+
+forbidden_services:
+  - telnet
+  - vsftpd

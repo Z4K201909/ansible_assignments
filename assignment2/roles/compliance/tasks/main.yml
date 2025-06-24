@@ -1,0 +1,37 @@
+- name: Install required packages
+  package:
+    name: "{{ required_packages }}"
+    state: present
+
+- name: Remove forbidden packages
+  package:
+    name: "{{ forbidden_packages }}"
+    state: absent
+
+- name: Ensure required services are running and enabled
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  loop: "{{ required_services }}"
+
+- name: Ensure forbidden services are stopped and disabled
+  service:
+    name: "{{ item }}"
+    state: stopped
+    enabled: no
+  loop: "{{ forbidden_services }}"
+
+- name: Gather system facts
+  setup:
+
+- name: Generate compliance report
+  copy:
+    content: |
+      Compliance Report
+      =================
+      Required packages installed: {{ required_packages }}
+      Forbidden packages removed: {{ forbidden_packages }}
+      Required services running: {{ required_services }}
+      Forbidden services stopped: {{ forbidden_services }}
+    dest: /tmp/compliance_report.txt
