@@ -1,0 +1,16 @@
+- name: Ensure backup directory exists
+  file:
+    path: "{{ backup_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Create a compressed archive of the source directory
+  archive:
+    path: "{{ source_dir }}"
+    dest: "{{ backup_dir }}/{{ backup_file }}"
+    format: gz
+    mode: '0644'
+
+- name: Display backup file path
+  debug:
+    msg: "Backup created at {{ backup_dir }}/{{ backup_file }}"

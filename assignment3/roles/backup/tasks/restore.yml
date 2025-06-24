@@ -1,0 +1,24 @@
+- name: Find the latest backup file
+  find:
+    paths: "{{ backup_dir }}"
+    patterns: "backup_*.tar.gz"
+    age_stamp: mtime
+    recurse: no
+  register: found_backups
+
+- name: Set latest backup file
+  set_fact:
+    latest_backup: "{{ (found_backups.files | sort(attribute='mtime'))[-1].path }}"
+  when: found_backups.matched > 0
+
+- name: Extract the latest backup
+  unarchive:
+    src: "{{ latest_backup }}"
+    dest: "/"
+    remote_src: yes
+  when: found_backups.matched > 0
+
+- name: Display restore status
+  debug:
+    msg: "Restored from {{ latest_backup }}"
+  when: found_backups.matched > 0

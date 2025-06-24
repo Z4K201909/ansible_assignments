@@ -1,0 +1,8 @@
+- name: Backup and Restore Playbook
+  hosts: backup_hosts
+  become: yes
+  vars:
+    action: "restore"
+  roles:
+    - backup
+

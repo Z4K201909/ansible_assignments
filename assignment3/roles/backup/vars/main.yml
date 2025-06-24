@@ -1,0 +1,4 @@
+source_dir: "/etc"
+backup_dir: "/tmp/backups"
+timestamp: "{{ lookup('pipe', 'date +%Y%m%d%H%M%S') }}"
+backup_file: "backup_{{ timestamp }}.tar.gz"
